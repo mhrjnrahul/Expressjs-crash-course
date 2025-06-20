@@ -31,9 +31,17 @@ router.get("/", (req, res) => {
 });
 
 //get a single post by id
-router.get("/:id", (req, res) => {
+router.get("/:id", (req, res, next) => {
   const id = parseInt(req.params.id);
-  res.json(posts.filter((post) => post.id === id));
+  const post = posts.find((post) => post.id === id);
+
+  if(!post) {
+    const error = new Error("Post not found");
+    error.status = 404;
+    return next(error);
+  }
+
+  res.json(post);
 });
 
 //create a new post
