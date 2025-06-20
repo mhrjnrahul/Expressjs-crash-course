@@ -16,6 +16,8 @@ const posts = [
   },
 ];
 
+
+
 //get all posts
 router.get("/", (req, res) => {
   //limiter
