@@ -4,6 +4,7 @@ import posts from "./routes/posts.js";
 import logger from "./middleware/logger.js";
 import errorHandler from "./middleware/error.js";
 import { error } from "console";
+import notFound from "./middleware/notFound.js";
 
 const app = express();
 
@@ -19,6 +20,8 @@ app.use(logger); // custom logger middleware
 //Routes
 app.use("/api/posts", posts);
 
+
+app.use(notFound); // 404 not found middleware
 app.use(errorHandler); // custom error handler middleware
 
 app.listen(3000, () => {

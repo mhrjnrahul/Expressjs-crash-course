@@ -1,17 +1,13 @@
 const errorHandler = (err, req, res, next) => {
-    if(err.status) {
-        res.status(err.status).json({
-            message: err.message || "An error occurred",
-        });
-    } else {
-        res.status(500).json({
-            message: "Internal Server Error",
-        });
-    }
+  if (res.headersSent) {
+    return next(err); // don't try to respond again if headers already sent
+  }
 
-    res.status(404).json({
-        message: err.message || "Not Found",
-    });
-}
+  const statusCode = res.statusCode !== 200 ? res.statusCode : 500;
+
+  res.status(statusCode).json({
+    message: err.message || "Internal Server Error",
+  });
+};
 
 export default errorHandler;
